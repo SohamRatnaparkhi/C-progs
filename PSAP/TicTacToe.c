@@ -82,15 +82,24 @@ int main(){
         int result = check_win();
         if(result == 1) {
             print_board();
-            printf("PLAYER %c WINS!", player);
-            break;
+            printf("\n-------------------\n");
+            printf("  PLAYER %c WINS!\n", player);
+            printf("-------------------\n");
+            return 0;
         }
         else if(result == 0){
-            printf("There is a TIE! between Player A and Player B!\n");
+            printf("\n-------------------\n");
+            printf("    There is a TIE! \n");
+            printf("-------------------\n");
+            return 0;
         }
         else {
             print_board();
             cnt++;
         }    
     }
+    printf("\n-------------------\n");
+    printf("   There is a TIE! \n");
+    printf("-------------------\n");
+    return 0;
 }
