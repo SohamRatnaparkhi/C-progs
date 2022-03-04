@@ -1,11 +1,86 @@
 #include <stdio.h>
 
+int print_board();
+int check_win();
+int get_coord();
+int color_red();
+int color_yellow();
+int color_green();
+int color_normal();
+int color_cyan();
+
 char board[10] = {'0','1','2','3','4','5','6','7','8','9'};
 char board2[10] = {'0','1','2','3','4','5','6','7','8','9'};
+int color_cntr = 0;
+
+int main(){
+    color_normal();
+    printf("\nKEYS for the game:-\n");
+    print_board();
+
+    printf("PLAYER A -> X\n");
+    printf("PLAYER B -> O\n");
+
+    for(int i = 1; i <= 10; i++){
+        board2[i] = '-';
+    }
+
+    int cnt = 1;
+    while(cnt <= 9){
+
+        char marker = (cnt % 2 == 1)? 'X':'O';
+        char player = (cnt % 2 == 1)? 'A':'B';
+
+        printf("Player %c\n", player);
+        int c = get_coord();
+        if (c <= 1 && c >=9){
+            color_green();
+            printf("Re-enter a valid location\n");
+            color_normal();
+            c = get_coord();
+        }
+        board[c] = marker;
+        board2[c] = marker;
+        int result = check_win();
+        if(result == 1) {
+            print_board();
+            printf("\n-------------------\n");
+            color_yellow();
+            printf("  PLAYER %c WINS!\n", player);
+            color_normal();
+            printf("-------------------\n");
+            return 0;
+        }
+        else if(result == 0){
+            printf("\n-------------------\n");
+            color_yellow();
+            printf("    There is a TIE! \n");
+            color_normal();
+            printf("-------------------\n");
+            return 0;
+        }
+        else {
+            if(cnt % 2 == 0) {
+                color_red();
+            }
+            else {
+                color_cyan();
+            }
+            print_board();
+            color_normal();
+            cnt++;
+        }    
+    }
+    printf("\n-------------------\n");
+    printf("   There is a TIE! \n");
+    printf("-------------------\n");
+    return 0;
+}
 
 int print_board(){
     for (int i=1; i<=9; i+=3){
         //printf("_______________\n");
+
         printf("-------------------\n");
         printf("|     |     |     |\n");
         printf("|  %c  |  %c  |  %c  |\n", board2[i], board2[i+1], board2[i+2]);
@@ -49,57 +124,34 @@ int check_win(){
 
 int get_coord(){
     int c;
+    color_yellow();
     printf("Enter posn - ");
+    color_normal();
     scanf("%d",&c);
     return c;
 }
-int main(){
 
-    printf("\nKEYS for the game:-\n");
-    print_board();
+int color_red(){
+    printf("\033[1;31m");
+    return 0;
+}
 
-    printf("PLAYER A -> X\n");
-    printf("PLAYER B -> O\n");
+int color_green(){
+    printf("\033[0;32m");
+    return 0;
+}
 
-    for(int i = 1; i <= 10; i++){
-        board2[i] = '-';
-    }
+int color_yellow(){
+    printf("\033[1;33m");
+    return 0;
+}
 
-    int cnt = 1;
-    while(cnt <= 9){
+int color_cyan(){
+    printf("\033[0;36m");
+    return 0;
+}
 
-        char marker = (cnt % 2 == 1)? 'X':'O';
-        char player = (cnt % 2 == 1)? 'A':'B';
-
-        printf("Player %c\n", player);
-        int c = get_coord();
-        if (c <= 1 && c >=9){
-            printf("Re-enter a valid location\n");
-            c = get_coord();
-        }
-        board[c] = marker;
-        board2[c] = marker;
-        int result = check_win();
-        if(result == 1) {
-            print_board();
-            printf("\n-------------------\n");
-            printf("  PLAYER %c WINS!\n", player);
-            printf("-------------------\n");
-            return 0;
-        }
-        else if(result == 0){
-            printf("\n-------------------\n");
-            printf("    There is a TIE! \n");
-            printf("-------------------\n");
-            return 0;
-        }
-        else {
-            print_board();
-            cnt++;
-        }    
-    }
-    printf("\n-------------------\n");
-    printf("   There is a TIE! \n");
-    printf("-------------------\n");
+int color_normal(){
+    printf("\033[0m");
     return 0;
 }
