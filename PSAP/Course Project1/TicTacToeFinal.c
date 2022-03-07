@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h> //for exit(0), system("cls")
+#include <conio.h>  //For kbhit, getch()
+#include <time.h>   //For clock(),clock_t
 
 int print_board();
 int check_win();
@@ -10,13 +13,17 @@ int color_green();
 int color_normal();
 int color_cyan();
 
+int delay(int ms);
+int counter();
+
 char board[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 char board2[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+int limit = 9;
 int color_cntr = 1;
+int second = 0, flag = 0;
 
 int main()
 {
-
     color_normal();
     printf("\nKEYS for the game:-\n");
     print_board();
@@ -33,9 +40,12 @@ int main()
     }
 
     int cnt = 1;
-    while (cnt <= 9)
+    while (1)
     {
+        if(cnt >= limit){
 
+        }
+        flag = 0;
         char marker = (cnt % 2 == 1) ? 'X' : 'O';
         char player = (cnt % 2 == 1) ? 'A' : 'B';
 
@@ -43,31 +53,18 @@ int main()
         int c = 0;
         while (c < 1 || c > 9)
         {
-            c = get_coord();
-            if (c < 1 || c > 9)
+            color_yellow();
+            printf("Enter posn  ");
+            color_normal();
+            c = counter();
+            if (c == -100)
             {
-                color_green();
-                printf("Re-enter a valid location\n");
-                color_normal();
-                // c = get_coord();
-            }
-        }
-        while (1)
-        {
-            if (board[c] == 'X' || board[c] == 'O')
-            {
-                color_green();
-                printf("You choose a position that is already occupied by some marker.\n");
-                printf("Re-enter a valid location\n");
-                color_normal();
-                c = get_coord();
-            }
-            else
+                printf("\nTIME OUT - You have lost your chance!\n");
+                limit++;
+                flag = 1;
                 break;
-        }
-        while (c < 1 || c > 9)
-        {
-            c = get_coord();
+            }
+
             if (c < 1 || c > 9)
             {
                 color_green();
@@ -76,8 +73,55 @@ int main()
                 // c = get_coord();
             }
         }
-        board[c] = marker;
-        board2[c] = marker;
+        if (flag != 1)
+        {
+            while (1)
+            {
+                if (board[c] == 'X' || board[c] == 'O')
+                {
+                    color_green();
+                    printf("You choose a position that is already occupied by some marker.\n");
+                    printf("Re-enter a valid location\n");
+                    color_normal();
+                    // c = get_coord();
+                    c = counter();
+                    if (c == -100)
+                    {
+                        color_normal();
+                        printf("\nTIME OUT - You have lost your chance!\n");
+                        limit++;
+                        flag = 1;
+                        break;
+                    }
+                }
+                else
+                    break;
+            }
+            while ((c < 1 || c > 9) && flag != 1)
+            {
+                // c = get_coord();
+                c = counter();
+                if (c == -100)
+                {
+                    printf("\nTIME OUT - You have lost your chance!\n");
+                    limit++;
+                    flag = 1;
+                    break;
+                }
+                if (c < 1 || c > 9)
+                {
+                    color_green();
+                    printf("Re-enter a valid location\n");
+                    color_normal();
+                    // c = get_coord();
+                }
+            }
+            if (flag != 1)
+            {
+                board[c] = marker;
+                board2[c] = marker;
+            }
+        }
         int result = check_win();
         if (result == 1)
         {
@@ -92,17 +136,18 @@ int main()
         }
         else if (result == 0)
         {
-            printf("\n-------------------\n");
+            printf("\n------------------------\n");
             color_yellow();
             printf("    There is a TIE! \n");
             color_normal();
-            printf("-------------------\n");
+            printf("--------------------------\n");
             return 0;
         }
         else
         {
             cnt++;
             color_cntr++;
+            // second = 0;
             print_board();
             color_normal();
         }
@@ -200,9 +245,9 @@ int check_win()
 int get_coord()
 {
     int c;
-    color_yellow();
-    printf("Enter posn - ");
-    color_normal();
+    // color_yellow();
+    // printf("Enter posn - ");
+    // color_normal();
     scanf("%d", &c);
     return c;
 }
@@ -248,4 +293,29 @@ int color_normal()
 {
     printf("\033[0m");
     return 0;
+}
+int delay(int ms)
+{
+    clock_t timeDelay = ms + clock(); // Step up the difference from clock delay
+    while (timeDelay > clock())
+        ;
+}
+int counter()
+{
+    second = 10;
+    printf("\n\t\t\t---------------------------------------------------------------\n");
+    printf("\n\t\t\tTIMER STARTS - You have 10 seconds to enter the next position\n");
+    printf("\n\t\t\t---------------------------------------------------------------\n");
+
+    while (!kbhit() && second > 0)
+    {
+        printf("\t\t\t%d\n", second); // print out the new data, delay for 1000 millisecond and increase 1 second.
+        delay(1000);
+        second -= 1;
+    }
+
+    if (second > 1)
+        return get_coord();
+    else
+        return -100;
 }
