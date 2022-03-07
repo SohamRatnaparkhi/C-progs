@@ -4,6 +4,8 @@ int print_board();
 int check_win();
 int get_coord();
 int color_red();
+int hori_line();
+int vert_line();
 int color_yellow();
 int color_green();
 int color_normal();
@@ -40,19 +42,41 @@ int main()
 
         printf("\nPlayer %c -> %c\n", player, marker);
         int c = 0;
-        c = get_coord();
         while (c < 1 || c > 9)
         {
-
+            c = get_coord();
             if (c < 1 || c > 9)
             {
                 color_green();
                 printf("Re-enter a valid location\n");
                 color_normal();
-                c = get_coord();
+                // c = get_coord();
             }
         }
-
+        while (1)
+        {
+            if (board[c] == 'X' || board[c] == 'O')
+            {
+                color_green();
+                printf("You choose a position that is already occupied by some marker.\n");
+                printf("Re-enter a valid location\n");
+                color_normal();
+                c = get_coord();
+            }
+            else
+                break;
+        }
+        while (c < 1 || c > 9)
+        {
+            c = get_coord();
+            if (c < 1 || c > 9)
+            {
+                color_green();
+                printf("Re-enter a valid location\n");
+                color_normal();
+                // c = get_coord();
+            }
+        }
         board[c] = marker;
         board2[c] = marker;
         int result = check_win();
@@ -64,8 +88,8 @@ int main()
             printf("  PLAYER %c WINS!\n", player);
             color_normal();
             printf("-------------------\n");
+            //
             return 0;
-            
         }
         else if (result == 0)
         {
