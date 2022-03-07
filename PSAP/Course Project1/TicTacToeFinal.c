@@ -42,8 +42,8 @@ int main()
     int cnt = 1;
     while (1)
     {
-        if(cnt >= limit){
-
+        if (cnt >= limit)
+        {
         }
         flag = 0;
         char marker = (cnt % 2 == 1) ? 'X' : 'O';
@@ -83,15 +83,25 @@ int main()
                     printf("You choose a position that is already occupied by some marker.\n");
                     printf("Re-enter a valid location\n");
                     color_normal();
+                    c = 0;
                     // c = get_coord();
-                    c = counter();
-                    if (c == -100)
+                    while (c < 1 || c > 9)
                     {
-                        color_normal();
-                        printf("\nTIME OUT - You have lost your chance!\n");
-                        limit++;
-                        flag = 1;
-                        break;
+                        c = counter();
+                        if (c == -100)
+                        {
+                            color_normal();
+                            printf("\nTIME OUT - You have lost your chance!\n");
+                            limit++;
+                            flag = 1;
+                            break;
+                        }
+                        if (c < 1 || c > 9)
+                        {
+                            color_green();
+                            printf("Re-enter a valid location\n");
+                            color_normal();
+                        }
                     }
                 }
                 else
@@ -152,6 +162,7 @@ int main()
             color_normal();
         }
     }
+    print_board();
     printf("\n-------------------\n");
     printf("   There is a TIE! \n");
     printf("-------------------\n");
