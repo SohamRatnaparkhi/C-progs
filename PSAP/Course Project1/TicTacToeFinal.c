@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h> //for exit(0), system("cls")
+#include <stdlib.h> 
 #include <conio.h>  //For kbhit, getch()
 #include <time.h>   //For clock(),clock_t
 
@@ -12,6 +12,7 @@ int color_yellow();
 int color_green();
 int color_normal();
 int color_cyan();
+int color_purple();
 
 int delay(int ms);
 int counter();
@@ -302,7 +303,13 @@ int color_cyan()
 
 int color_normal()
 {
-    printf("\033[0m");
+    printf("\033[0;37m");
+    return 0;
+}
+
+int color_purple()
+{
+    printf("\033[0;35m");
     return 0;
 }
 int delay(int ms)
@@ -314,9 +321,13 @@ int delay(int ms)
 int counter()
 {
     second = 10;
+    color_purple();
     printf("\n\t\t\t---------------------------------------------------------------\n");
+    color_yellow();
     printf("\n\t\t\tTIMER STARTS - You have 10 seconds to enter the next position\n");
+    color_purple();
     printf("\n\t\t\t---------------------------------------------------------------\n");
+    color_normal();
 
     while (!kbhit() && second > 0)
     {
