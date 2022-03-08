@@ -277,6 +277,9 @@ int replay_game()
         return 0;
 }
 
+
+// Color reference - https://www.theurbanpenguin.com/4184-2/
+
 int color_red()
 {
     printf("\033[1;31m");
