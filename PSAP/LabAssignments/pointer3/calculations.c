@@ -11,5 +11,7 @@ int main() {
     int* pb = &b;
 
     printf("a + b = %d\n", (*pa + *pb));
-    
+    printf("a - b = %d\n", (*pa - *pb));
+    printf("a * b = %d\n", (*pa * *pb));
+    printf("a / b = %d\n", (*pa / *pb));
 }
