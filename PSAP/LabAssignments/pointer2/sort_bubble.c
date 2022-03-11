@@ -7,13 +7,14 @@ int main() {
     int arr[l];
     printf("Enter elements of array - ");
     //Input
+    int* pt = arr;
     for(int i = 0; i < l; i++) {
-        scanf("%d",&arr[i]);
+        scanf("%d",pt++);
     }
     //Sorting
     
     for(int i = 0; i < l - 1; i++) {
-        for(int j = 0, *p = arr; j < (l - i -1); j++, *p++) {
+        for(int j = 0, *p = arr; j < (l - i -1); j++, p++) {
             if(*p > *(p + 1)){
                 int t = *p;
                 *p = *(p + 1);

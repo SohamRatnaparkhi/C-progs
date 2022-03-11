@@ -10,7 +10,7 @@ int main() {
         if(*p == 'a' || *p == 'e' || *p == 'i' || *p == 'o' || *p == 'u') vowel ++;
         else consonant ++;
 
-        *p++;
+        p++;
     }
     printf("Vowel = %d\nConsonant = %d\n", vowel, consonant);
 }
