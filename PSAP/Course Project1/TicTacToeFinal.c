@@ -1,13 +1,13 @@
 #include <stdio.h>
-#include <stdlib.h> 
-#include <conio.h>  //For kbhit, getch()
-#include <time.h>   //For clock(),clock_t
+#include <stdlib.h>
+#include <conio.h> //For kbhit, getch()
+#include <time.h>  //For clock(),clock_t
 
 int print_board();
 int check_win();
 int get_coord();
-int color_red();
 
+int color_red();
 int color_yellow();
 int color_green();
 int color_normal();
@@ -43,9 +43,6 @@ int main()
     int cnt = 1;
     while (1)
     {
-        if (cnt >= limit)
-        {
-        }
         flag = 0;
         char marker = (cnt % 2 == 1) ? 'X' : 'O';
         char player = (cnt % 2 == 1) ? 'A' : 'B';
@@ -57,8 +54,8 @@ int main()
             color_yellow();
             printf("Enter posn  ");
             color_normal();
-            c = counter();
-            if (c == -100)
+            c = counter(); // Accepting the coordinate input
+            if (c == -100) // -100 is the error code which states that the time is up. 
             {
                 printf("\nTIME OUT - You have lost your chance!\n");
                 limit++;
@@ -71,11 +68,11 @@ int main()
                 color_green();
                 printf("Re-enter a valid location\n");
                 color_normal();
-                // c = get_coord();
             }
         }
-        if (flag != 1)
+        if (flag != 1) // If flag is 1 then time was up and the chance should go to next player
         {
+            //TODO : Check whether the position that user enters is already occupied
             while (1)
             {
                 if (board[c] == 'X' || board[c] == 'O')
@@ -85,10 +82,9 @@ int main()
                     printf("Re-enter a valid location\n");
                     color_normal();
                     c = 0;
-                    // c = get_coord();
                     while (c < 1 || c > 9)
                     {
-                        c = counter();
+                        c = counter(); // Accepting the position coordinate from user.
                         if (c == -100)
                         {
                             color_normal();
@@ -108,9 +104,9 @@ int main()
                 else
                     break;
             }
+            // To check the unique value entered by the user after enterring an already occupied location 
             while ((c < 1 || c > 9) && flag != 1)
             {
-                // c = get_coord();
                 c = counter();
                 if (c == -100)
                 {
@@ -124,9 +120,9 @@ int main()
                     color_green();
                     printf("Re-enter a valid location\n");
                     color_normal();
-                    // c = get_coord();
                 }
             }
+            // TODO: Updating the boards 
             if (flag != 1)
             {
                 board[c] = marker;
@@ -142,7 +138,6 @@ int main()
             printf("  PLAYER %c WINS!\n", player);
             color_normal();
             printf("-------------------\n");
-            //
             return 0;
         }
         else if (result == 0)
@@ -158,7 +153,7 @@ int main()
         {
             cnt++;
             color_cntr++;
-            // second = 0;
+    
             print_board();
             color_normal();
         }
@@ -175,8 +170,7 @@ int print_board()
     color_normal();
     for (int i = 1; i <= 9; i += 3)
     {
-        // printf("_______________\n");
-
+        
         printf("-------------------\n");
         printf("|     |     |     |\n");
         // printf("|  %c  |  %c  |  %c  |\n", board2[i], board2[i+1], board2[i+2]);
@@ -209,7 +203,9 @@ int print_board()
                 {
                     color_normal();
                     printf("|  ");
-                    printf("%c  ", board2[i + j]);
+                    // color_green();
+                    printf("%c  ", board[i + j]); // printing the key
+                    color_normal();
                 }
             }
         }
@@ -224,6 +220,7 @@ int print_board()
 
 int check_win()
 {
+    // return 1 for a win, 0 for tie and -1 if there is neither a win nor a tie
     if (board[1] == board[2] && board[2] == board[3])
         return 1;
 
@@ -257,9 +254,6 @@ int check_win()
 int get_coord()
 {
     int c;
-    // color_yellow();
-    // printf("Enter posn - ");
-    // color_normal();
     scanf("%d", &c);
     return c;
 }
@@ -276,7 +270,6 @@ int replay_game()
     else
         return 0;
 }
-
 
 // Color reference - https://www.theurbanpenguin.com/4184-2/
 
@@ -323,11 +316,11 @@ int delay(int ms)
 }
 int counter()
 {
-    second = 10;
+    second = 15;
     color_purple();
     printf("\n\t\t\t---------------------------------------------------------------\n");
     color_yellow();
-    printf("\n\t\t\tTIMER STARTS - You have 10 seconds to enter the next position\n");
+    printf("\n\t\t\tTIMER STARTS - You have 15 seconds to enter the next position\n");
     color_purple();
     printf("\n\t\t\t---------------------------------------------------------------\n");
     color_normal();
