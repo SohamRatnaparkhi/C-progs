@@ -203,7 +203,7 @@ int print_board()
                 {
                     color_normal();
                     printf("|  ");
-                    // color_green();
+                    color_yellow();
                     printf("%c  ", board[i + j]); // printing the key
                     color_normal();
                 }
